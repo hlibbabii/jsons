@@ -6,6 +6,8 @@ import json
 import re
 from typing import Dict
 
+from typing_inspect import is_union_type
+
 VALID_TYPES = (str, int, float, bool, list, tuple, set, dict, type(None))
 RFC3339_DATETIME_PATTERN = '%Y-%m-%dT%H:%M:%S'
 
@@ -105,6 +107,9 @@ def load(json_obj: dict, cls: type = None, strict: bool = False,
 
 def _get_deserializer(cls: type, fork_inst: type = None):
     fork_inst = fork_inst or JsonSerializable
+    if is_union_type(cls):
+        return fork_inst.union_deserializer
+
     cls_name = cls.__name__ if hasattr(cls, '__name__') \
         else cls.__origin__.__name__
     deserializer = fork_inst._deserializers.get(cls_name.lower(), None)

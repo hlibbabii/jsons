@@ -92,7 +92,7 @@ from jsons.deserializers import default_list_deserializer, \
     default_enum_deserializer, default_datetime_deserializer, \
     default_string_deserializer, default_primitive_deserializer, \
     default_object_deserializer, default_dict_deserializer, \
-    default_tuple_deserializer, default_set_deserializer
+    default_tuple_deserializer, default_set_deserializer, default_union_deserealizer
 from jsons.serializers import default_list_serializer, \
     default_enum_serializer, default_datetime_serializer, \
     default_primitive_serializer, default_object_serializer, \
@@ -134,3 +134,5 @@ set_deserializer(default_primitive_deserializer, float)
 set_deserializer(default_primitive_deserializer, bool)
 set_deserializer(default_primitive_deserializer, None)
 set_deserializer(default_object_deserializer, object, False)
+
+JsonSerializable.union_deserializer = default_union_deserealizer

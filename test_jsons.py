@@ -2,7 +2,7 @@ import asyncio
 import datetime
 import json
 from enum import Enum
-from typing import List, Tuple, Set, Dict
+from typing import List, Tuple, Set, Dict, Optional
 from unittest.case import TestCase
 import jsons
 from jsons import JsonSerializable, KEY_TRANSFORMER_CAMELCASE
@@ -842,3 +842,14 @@ class TestJsons(TestCase):
             self.assertEqual(res.x, 'c_res')
 
         asyncio.get_event_loop().run_until_complete(_test_body())
+
+    def test_load_optional(self):
+        class A:
+            def __init__(self, a: Optional[str], b: Optional[int]):
+                self.a = a
+                self.b = b
+
+        loaded = jsons.loads('{"a": null, "b": 1}', A)
+
+        self.assertEqual(None, loaded.a)
+        self.assertEqual(1, loaded.b)

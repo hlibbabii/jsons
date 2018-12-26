@@ -208,6 +208,16 @@ def default_object_deserializer(obj: dict, cls: type,
     return instance
 
 
+def default_union_deserealizer(obj: dict, cls: type, **kwargs):
+    possible_classes = cls.__args__
+    for possible_class in possible_classes:
+        #trying all the classes in union one by one
+        try:
+            return _common_impl.load(obj, possible_class, **kwargs)
+        except TypeError:
+            pass
+
+
 def _get_constructor_args(obj, signature_parameters, **kwargs):
     # Loop through the signature of cls: the type we try to deserialize to. For
     # every required parameter, we try to get the corresponding value from
